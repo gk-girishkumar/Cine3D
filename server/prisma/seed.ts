@@ -62,72 +62,9 @@ async function main() {
     }
   }
 
-  // Movie 1
-  const movie1 = await prisma.movie.upsert({
-    where: { id: "seed-movie-1" },
-    update: { posterUrl: "/posters/last_horizon.png" },
-    create: {
+  const movieData = [
+    {
       id: "seed-movie-1",
-      title: "The Last Horizon",
-      description: "An epic sci-fi adventure following a crew searching for a new home among the stars.",
-      durationMinutes: 142,
-      genre: "Sci-Fi",
-      posterUrl: "/posters/last_horizon.png",
-      releaseDate: new Date("2025-12-01"),
-    },
-  });
-
-  // Movie 2
-  const movie2 = await prisma.movie.upsert({
-    where: { id: "seed-movie-2" },
-    update: { posterUrl: "/posters/neon_echoes.png" },
-    create: {
-      id: "seed-movie-2",
-      title: "Neon Echoes",
-      description: "A cyberpunk thriller exploring the bounds of human consciousness in a digital age.",
-      durationMinutes: 115,
-      genre: "Action/Sci-Fi",
-      posterUrl: "/posters/neon_echoes.png",
-      releaseDate: new Date("2026-03-15"),
-    },
-  });
-
-  // Movie 3
-  const movie3 = await prisma.movie.upsert({
-    where: { id: "seed-movie-3" },
-    update: { posterUrl: "/posters/whispering_pines.png" },
-    create: {
-      id: "seed-movie-3",
-      title: "Whispering Pines",
-      description: "A psychological horror set in a secluded mountain town where nothing is as it seems.",
-      durationMinutes: 105,
-      genre: "Horror",
-      posterUrl: "/posters/whispering_pines.png",
-      releaseDate: new Date("2026-10-31"),
-    },
-  });
-
-  // Movie 4
-  const movie4 = await prisma.movie.upsert({
-    where: { id: "seed-movie-4" },
-    update: { posterUrl: "/posters/laugh_riot.png" },
-    create: {
-      id: "seed-movie-4",
-      title: "Laugh Riot",
-      description: "A heartwarming comedy about a mismatched group of friends on a cross-country road trip.",
-      durationMinutes: 95,
-      genre: "Comedy",
-      posterUrl: "/posters/laugh_riot.png",
-      releaseDate: new Date("2026-06-20"),
-    },
-  });
-
-  // Movie 5
-  const movie5 = await prisma.movie.upsert({
-    where: { id: "seed-movie-5" },
-    update: { posterUrl: "/posters/spider_man.png" },
-    create: {
-      id: "seed-movie-5",
       title: "Spider-Man: No Way Home",
       description: "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help.",
       durationMinutes: 148,
@@ -135,14 +72,8 @@ async function main() {
       posterUrl: "/posters/spider_man.png",
       releaseDate: new Date("2021-12-17"),
     },
-  });
-
-  // Movie 6
-  const movie6 = await prisma.movie.upsert({
-    where: { id: "seed-movie-6" },
-    update: { posterUrl: "/posters/avengers.png" },
-    create: {
-      id: "seed-movie-6",
+    {
+      id: "seed-movie-2",
       title: "Avengers: Endgame",
       description: "After the devastating events of Infinity War, the Avengers assemble once more.",
       durationMinutes: 181,
@@ -150,39 +81,139 @@ async function main() {
       posterUrl: "/posters/avengers.png",
       releaseDate: new Date("2019-04-26"),
     },
-  });
+    {
+      id: "seed-movie-3",
+      title: "Inception",
+      description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea.",
+      durationMinutes: 148,
+      genre: "Sci-Fi/Action",
+      posterUrl: "https://image.tmdb.org/t/p/w500/8kOWDBK6XlPUzZ4220zILwO01PO.jpg",
+      releaseDate: new Date("2010-07-16"),
+    },
+    {
+      id: "seed-movie-4",
+      title: "The Dark Knight",
+      description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests.",
+      durationMinutes: 152,
+      genre: "Action/Crime",
+      posterUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+      releaseDate: new Date("2008-07-18"),
+    },
+    {
+      id: "seed-movie-5",
+      title: "Interstellar",
+      description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+      durationMinutes: 169,
+      genre: "Sci-Fi/Adventure",
+      posterUrl: "https://image.tmdb.org/t/p/w500/gEU2QlsUUHXjNpeEYZnW01Id221.jpg",
+      releaseDate: new Date("2014-11-07"),
+    },
+    {
+      id: "seed-movie-6",
+      title: "The Matrix",
+      description: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+      durationMinutes: 136,
+      genre: "Sci-Fi/Action",
+      posterUrl: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+      releaseDate: new Date("1999-03-31"),
+    },
+    {
+      id: "seed-movie-7",
+      title: "Avatar",
+      description: "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world.",
+      durationMinutes: 162,
+      genre: "Sci-Fi/Adventure",
+      posterUrl: "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
+      releaseDate: new Date("2009-12-18"),
+    },
+    {
+      id: "seed-movie-8",
+      title: "Titanic",
+      description: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+      durationMinutes: 194,
+      genre: "Romance/Drama",
+      posterUrl: "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg",
+      releaseDate: new Date("1997-12-19"),
+    },
+    {
+      id: "seed-movie-9",
+      title: "Jurassic Park",
+      description: "A pragmatic paleontologist touring an almost complete theme park on an island in Central America is tasked with protecting a couple of kids.",
+      durationMinutes: 127,
+      genre: "Adventure/Sci-Fi",
+      posterUrl: "https://image.tmdb.org/t/p/w500/oU7Oq2kFAAlGqbU4VRcg1xMfjJM.jpg",
+      releaseDate: new Date("1993-06-11"),
+    },
+    {
+      id: "seed-movie-10",
+      title: "The Lion King",
+      description: "Lion prince Simba and his father are targeted by his bitter uncle, who wants to ascend the throne himself.",
+      durationMinutes: 89,
+      genre: "Animation/Family",
+      posterUrl: "https://image.tmdb.org/t/p/w500/sKCr78AS8oXOqKj74M4cpcO1TAD.jpg",
+      releaseDate: new Date("1994-06-24"),
+    }
+  ];
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(18, 0, 0, 0);
-
-  const movies = [movie1, movie2, movie3, movie4, movie5, movie6];
-  
-  for (let i = 0; i < movies.length; i++) {
-    const m = movies[i];
-    const startTime = new Date(tomorrow);
-    startTime.setHours(18 + i, 0, 0, 0); // Stagger showtimes
-    const endTime = new Date(startTime);
-    endTime.setMinutes(endTime.getMinutes() + m.durationMinutes);
-
-    await prisma.showtime.upsert({
-      where: { id: `seed-showtime-${i+1}` },
-      update: {},
-      create: {
-        id: `seed-showtime-${i+1}`,
-        movieId: m.id,
-        theaterId: theater.id,
-        startTime,
-        endTime,
-        price: 12.99 + i, // Vary pricing slightly
-      },
+  const movies = [];
+  for (const m of movieData) {
+    const movie = await prisma.movie.upsert({
+      where: { id: m.id },
+      update: m,
+      create: m,
     });
+    movies.push(movie);
+  }
+  
+  // Generate showtimes for 7 days (1 week)
+  let showtimeCounter = 1;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+    const currentDate = new Date(today);
+    currentDate.setDate(currentDate.getDate() + dayOffset);
+    
+    for (let i = 0; i < movies.length; i++) {
+      const m = movies[i];
+      // 2 showtimes per movie per day (Afternoon and Evening)
+      const times = [14, 19]; // 2 PM and 7 PM
+      
+      for (const hour of times) {
+        const startTime = new Date(currentDate);
+        startTime.setHours(hour, 0, 0, 0); 
+        
+        const endTime = new Date(startTime);
+        endTime.setMinutes(endTime.getMinutes() + m.durationMinutes);
+
+        await prisma.showtime.upsert({
+          where: { id: `seed-showtime-${showtimeCounter}` },
+          update: {
+            movieId: m.id,
+            theaterId: theater.id,
+            startTime,
+            endTime,
+            price: hour === 14 ? 150 : 250, // Matinee is cheaper
+          },
+          create: {
+            id: `seed-showtime-${showtimeCounter}`,
+            movieId: m.id,
+            theaterId: theater.id,
+            startTime,
+            endTime,
+            price: hour === 14 ? 150 : 250, 
+          },
+        });
+        showtimeCounter++;
+      }
+    }
   }
 
   console.log("Seed completed:");
   console.log(`  Admin: ${admin.email} / password123`);
   console.log(`  User:  ${user.email} / password123`);
-  console.log(`  Movies Seeded: 4`);
+  console.log(`  Movies Seeded: ${movies.length}`);
+  console.log(`  Showtimes Seeded: ${showtimeCounter - 1}`);
   console.log(`  Theater: ${theater.name} (${theater.totalSeats} seats)`);
 }
 
