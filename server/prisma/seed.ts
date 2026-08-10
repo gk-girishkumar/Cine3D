@@ -87,7 +87,7 @@ async function main() {
       description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea.",
       durationMinutes: 148,
       genre: "Sci-Fi/Action",
-      posterUrl: "https://image.tmdb.org/t/p/w500/8kOWDBK6XlPUzZ4220zILwO01PO.jpg",
+      posterUrl: "/posters/inception.jpg",
       releaseDate: new Date("2010-07-16"),
     },
     {
@@ -96,7 +96,7 @@ async function main() {
       description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests.",
       durationMinutes: 152,
       genre: "Action/Crime",
-      posterUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+      posterUrl: "/posters/dark_knight.jpg",
       releaseDate: new Date("2008-07-18"),
     },
     {
@@ -105,7 +105,7 @@ async function main() {
       description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
       durationMinutes: 169,
       genre: "Sci-Fi/Adventure",
-      posterUrl: "https://image.tmdb.org/t/p/w500/gEU2QlsUUHXjNpeEYZnW01Id221.jpg",
+      posterUrl: "/posters/interstellar.jpg",
       releaseDate: new Date("2014-11-07"),
     },
     {
@@ -114,7 +114,7 @@ async function main() {
       description: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
       durationMinutes: 136,
       genre: "Sci-Fi/Action",
-      posterUrl: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+      posterUrl: "/posters/matrix.jpg",
       releaseDate: new Date("1999-03-31"),
     },
     {
@@ -123,7 +123,7 @@ async function main() {
       description: "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world.",
       durationMinutes: 162,
       genre: "Sci-Fi/Adventure",
-      posterUrl: "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
+      posterUrl: "/posters/avatar.jpg",
       releaseDate: new Date("2009-12-18"),
     },
     {
@@ -132,7 +132,7 @@ async function main() {
       description: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
       durationMinutes: 194,
       genre: "Romance/Drama",
-      posterUrl: "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg",
+      posterUrl: "/posters/titanic.jpg",
       releaseDate: new Date("1997-12-19"),
     },
     {
@@ -141,7 +141,7 @@ async function main() {
       description: "A pragmatic paleontologist touring an almost complete theme park on an island in Central America is tasked with protecting a couple of kids.",
       durationMinutes: 127,
       genre: "Adventure/Sci-Fi",
-      posterUrl: "https://image.tmdb.org/t/p/w500/oU7Oq2kFAAlGqbU4VRcg1xMfjJM.jpg",
+      posterUrl: "/posters/jurassic.jpg",
       releaseDate: new Date("1993-06-11"),
     },
     {
@@ -150,7 +150,7 @@ async function main() {
       description: "Lion prince Simba and his father are targeted by his bitter uncle, who wants to ascend the throne himself.",
       durationMinutes: 89,
       genre: "Animation/Family",
-      posterUrl: "https://image.tmdb.org/t/p/w500/sKCr78AS8oXOqKj74M4cpcO1TAD.jpg",
+      posterUrl: "/posters/lion_king.jpg",
       releaseDate: new Date("1994-06-24"),
     }
   ];
