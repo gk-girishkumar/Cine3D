@@ -3,11 +3,170 @@
 @theme {
   --color-primary: #e94560;
   --color-primary-dark: #c73e54;
-  --color-surface: #1a1a2e;
-  --color-surface-light: #16213e;
+  --color-primary-light: #ff6b81;
+  --color-surface: #0a0c16;
+  --color-surface-card: #121526;
+  --color-surface-light: #181d33;
   --color-accent: #0f3460;
+  --color-neon-cyan: #00f2fe;
+  --color-neon-purple: #9d4edd;
+  --color-neon-gold: #ffd166;
 }
 
-body {
-  @apply bg-surface text-gray-100 min-h-screen antialiased;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #080911;
+    color: #f3f4f6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+
+  /* Custom Glowing Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0c16;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f2747;
+    border-radius: 4px;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e94560;
+    box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+  }
 }
+
+/* 3D Transform Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* 3D Glassmorphism */
+.glass-panel {
+  background: rgba(18, 21, 38, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-glow {
+  background: rgba(18, 21, 38, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(233, 69, 96, 0.3);
+  box-shadow: 0 0 30px rgba(233, 69, 96, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.glass-panel-cyan {
+  background: rgba(15, 30, 50, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  box-shadow: 0 0 30px rgba(0, 242, 254, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Holographic Shimmer Effect */
+.holo-shimmer {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(0, 242, 254, 0.2) 40%,
+    rgba(233, 69, 96, 0.25) 50%,
+    rgba(255, 209, 102, 0.2) 60%,
+    rgba(255, 255, 255, 0.05) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 250% 250%;
+  animation: holoAnimation 6s ease infinite;
+}
+
+@keyframes holoAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 3D Floating Animation */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.3), inset 0 0 15px rgba(233, 69, 96, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(233, 69, 96, 0.6), inset 0 0 20px rgba(233, 69, 96, 0.2);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite;
+}
+
+/* Cinema Screen Projector Beam */
+.projector-beam {
+  background: radial-gradient(
+    ellipse at top center,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(0, 242, 254, 0.1) 40%,
+    rgba(233, 69, 96, 0.03) 70%,
+    transparent 100%
+  );
+  filter: blur(8px);
+}
+
+/* Cinema Curtain Opening Animation */
+@keyframes openCurtainLeft {
+  0% { transform: scaleX(1); transform-origin: left; }
+  100% { transform: scaleX(0); transform-origin: left; }
+}
+
+@keyframes openCurtainRight {
+  0% { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+.curtain-left {
+  animation: openCurtainLeft 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+.curtain-right {
+  animation: openCurtainRight 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+

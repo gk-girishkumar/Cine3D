@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, ApiError } from "../services/api";
+import { api } from "../services/api";
 import type { Movie } from "../types";
-import { Play, ChevronRight, Star, Film } from "lucide-react";
+import Hero3DCarousel from "../components/Hero3DCarousel";
+import Card3DTilt from "../components/Card3DTilt";
+import { soundEffects } from "../utils/audio";
+import {
+  Film,
+  Search,
+  Star,
+  Sparkles,
+  Ticket,
+  Clock,
+  Calendar,
+  Flame,
+  Clapperboard,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
 import toast from "react-hot-toast";
 
 function MovieSkeleton() {
   return (
-    <div className="bg-surface-light rounded-xl overflow-hidden animate-pulse border border-white/5">
+    <div className="glass-panel rounded-2xl overflow-hidden animate-pulse border border-white/5 flex flex-col">
       <div className="aspect-[2/3] bg-white/5 w-full"></div>
-      <div className="p-4">
-        <div className="h-6 bg-white/10 rounded w-3/4 mb-3"></div>
-        <div className="h-4 bg-white/5 rounded w-1/2 mb-4"></div>
-        <div className="h-10 bg-white/10 rounded w-full"></div>
+      <div className="p-4 space-y-3">
+        <div className="h-5 bg-white/10 rounded-lg w-3/4"></div>
+        <div className="h-4 bg-white/5 rounded-lg w-1/2"></div>
+        <div className="h-10 bg-white/10 rounded-xl w-full mt-2"></div>
       </div>
     </div>
   );
@@ -21,144 +36,197 @@ function MovieSkeleton() {
 export default function HomePage() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
-  const [heroIndex, setHeroIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("All");
 
   useEffect(() => {
     api
       .getMovies()
       .then((data) => setMovies(data.movies))
-      .catch((err) =>
-        toast.error(err instanceof ApiError ? err.message : "Failed to load movies")
-      )
+      .catch(() => toast.error("Failed to load movies"))
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    if (movies.length === 0) return;
-    const interval = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % Math.min(movies.length, 3));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [movies]);
+  const genres = ["All", "Sci-Fi / Adventure", "Cyberpunk / Action", "Animation / Action", "Biography / Drama", "Fantasy / Adventure"];
 
-  const featuredMovie = movies[heroIndex];
+  const filteredMovies = movies.filter((movie) => {
+    const matchesSearch =
+      movie.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      movie.genre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      movie.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesGenre =
+      selectedGenre === "All" || movie.genre.toLowerCase().includes(selectedGenre.toLowerCase());
+    return matchesSearch && matchesGenre;
+  });
 
   return (
-    <div className="-mt-8">
-      {/* Hero Carousel */}
+    <div className="space-y-12 pb-12">
+      {/* 3D Hero Carousel Component */}
       {loading ? (
-        <div className="w-full h-[60vh] md:h-[70vh] bg-surface-light animate-pulse mb-12"></div>
-      ) : featuredMovie ? (
-        <div className="relative w-[100vw] ml-[calc(-50vw+50%)] h-[60vh] md:h-[70vh] mb-12 overflow-hidden group">
-          <div className="absolute inset-0">
-            <img 
-              src={featuredMovie.posterUrl || "https://placehold.co/400x600/1a1a2e/e94560?text=No+Poster"} 
-              alt={featuredMovie.title} 
-              className="w-full h-full object-cover opacity-40 mix-blend-screen scale-105 group-hover:scale-100 transition-transform duration-1000"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent"></div>
-          </div>
-          
-          <div className="relative max-w-6xl mx-auto px-4 h-full flex flex-col justify-center">
-            <div className="max-w-2xl animate-in slide-in-from-bottom-8 duration-700">
-              <span className="inline-block px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded-full text-xs font-bold tracking-widest uppercase mb-4">
-                Now Showing
-              </span>
-              <h1 className="text-5xl md:text-7xl font-black text-white mb-4 leading-tight">
-                {featuredMovie.title}
-              </h1>
-              <div className="flex items-center gap-4 text-sm font-bold text-gray-300 mb-6">
-                <span className="flex items-center gap-1 text-yellow-500"><Star className="w-4 h-4 fill-current" /> 4.8</span>
-                <span>{featuredMovie.genre}</span>
-                <span>{featuredMovie.durationMinutes} min</span>
-              </div>
-              <p className="text-lg text-gray-400 mb-8 line-clamp-2 max-w-xl">
-                {featuredMovie.description}
-              </p>
-              <div className="flex gap-4">
-                <Link
-                  to={`/movies/${featuredMovie.id}`}
-                  className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-bold text-lg flex items-center gap-2 transition-transform hover:scale-105"
-                >
-                  <Play className="w-5 h-5 fill-current" /> Book Tickets
-                </Link>
-                <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-full font-bold text-lg transition-colors border border-white/5">
-                  Watch Trailer
-                </button>
-              </div>
+        <div className="w-full h-[450px] glass-panel rounded-3xl animate-pulse flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <Hero3DCarousel movies={movies} />
+      )}
+
+      {/* 3D Cinema Feature Ticker */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { icon: Sparkles, title: "IMAX Laser 3D", desc: "Dual 4K Laser Projection", color: "text-neon-cyan" },
+          { icon: Zap, title: "Dolby Atmos", desc: "128-Channel Spatial Sound", color: "text-neon-gold" },
+          { icon: Flame, title: "4DX Dynamic Seats", desc: "Sensory Motion FX", color: "text-primary" },
+          { icon: ShieldCheck, title: "Instant Holo-Pass", desc: "Encrypted QR Check-In", color: "text-green-400" },
+        ].map((feature, i) => (
+          <div
+            key={i}
+            className="glass-panel p-4 rounded-2xl border border-white/10 hover:border-white/20 transition-all flex items-center gap-3.5 group"
+          >
+            <div className={`p-3 rounded-xl bg-white/5 border border-white/10 ${feature.color} group-hover:scale-110 transition-transform`}>
+              <feature.icon className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-black text-white uppercase tracking-wider">{feature.title}</h4>
+              <p className="text-[11px] text-gray-400">{feature.desc}</p>
             </div>
           </div>
+        ))}
+      </div>
 
-          {/* Carousel Dots */}
-          <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
-            {movies.slice(0, 3).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setHeroIndex(i)}
-                className={`h-2 rounded-full transition-all ${i === heroIndex ? 'w-8 bg-primary' : 'w-2 bg-white/30'}`}
-              />
+      {/* Filter and Search Bar */}
+      <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Clapperboard className="w-5 h-5 text-primary" />
+              <h2 className="text-2xl font-black text-white">Now Showing in 3D</h2>
+            </div>
+            <p className="text-xs text-gray-400 mt-0.5">Select a movie to pick your 3D seat vantage</p>
+          </div>
+
+          {/* Search Input */}
+          <div className="relative max-w-md w-full">
+            <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search 3D titles, genres, IMAX..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-surface-card/90 border border-white/10 focus:border-primary pl-10 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none transition-colors"
+            />
+          </div>
+        </div>
+
+        {/* Genre Filter Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-2">
+          {genres.map((genre) => (
+            <button
+              key={genre}
+              onClick={() => {
+                soundEffects.playHover();
+                setSelectedGenre(genre);
+              }}
+              className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider shrink-0 transition-all ${
+                selectedGenre === genre
+                  ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-[0_0_15px_rgba(233,69,96,0.4)]"
+                  : "bg-surface-card/70 text-gray-400 hover:text-white hover:bg-surface-card border border-white/5"
+              }`}
+            >
+              {genre}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3D Movies Grid */}
+      <div>
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <MovieSkeleton key={i} />
             ))}
           </div>
-        </div>
-      ) : null}
-
-      {/* Movie Grid */}
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <h2 className="text-3xl font-black flex items-center gap-3">
-              <span className="w-2 h-8 bg-primary rounded-full"></span>
-              Trending Now
-            </h2>
+        ) : filteredMovies.length === 0 ? (
+          <div className="glass-panel p-16 rounded-3xl text-center border border-white/10 max-w-lg mx-auto">
+            <Film className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+            <h3 className="text-xl font-bold text-white mb-1">No 3D Movies Found</h3>
+            <p className="text-gray-400 text-sm">Try tweaking your search query or genre filter.</p>
           </div>
-          <button className="text-primary hover:text-white font-bold text-sm flex items-center gap-1 transition-colors">
-            View All <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {loading
-            ? Array.from({ length: 8 }).map((_, i) => <MovieSkeleton key={i} />)
-            : movies.map((movie) => (
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+            {filteredMovies.map((movie) => (
+              <Card3DTilt
+                key={movie.id}
+                maxTilt={12}
+                scale={1.03}
+                className="rounded-3xl glass-panel-glow border border-white/10 hover:border-primary/60 transition-all flex flex-col group h-full"
+              >
                 <Link
-                  key={movie.id}
                   to={`/movies/${movie.id}`}
-                  className="group bg-surface-light rounded-xl overflow-hidden border border-white/5 hover:border-primary/50 transition-all hover:shadow-[0_0_30px_rgba(233,69,96,0.15)] hover:-translate-y-2 flex flex-col"
+                  onClick={() => soundEffects.playHover()}
+                  className="flex flex-col h-full"
                 >
-                  <div className="aspect-[2/3] overflow-hidden relative">
+                  {/* Poster Image Container */}
+                  <div className="aspect-[16/11] relative overflow-hidden rounded-t-3xl bg-black/40">
                     <img
-                      src={movie.posterUrl || "https://placehold.co/400x600/1a1a2e/e94560?text=No+Poster"}
+                      src={
+                        movie.posterUrl ||
+                        "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&auto=format&fit=crop&q=80"
+                      }
                       alt={movie.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 pointer-events-none"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-surface-light via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    
-                    <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                      <span className="bg-primary text-white font-bold px-6 py-2 rounded-full text-sm shadow-lg">
-                        Get Tickets
+
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface-card via-surface-card/20 to-transparent opacity-90" />
+
+                    {/* 3D Badge */}
+                    <div className="absolute top-3 left-3 bg-black/70 border border-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-neon-cyan flex items-center gap-1 shadow-lg">
+                      <Sparkles className="w-3 h-3 text-neon-cyan" /> 3D IMAX
+                    </div>
+
+                    <div className="absolute top-3 right-3 bg-yellow-500/20 border border-yellow-500/40 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-bold text-yellow-400 flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 fill-current" /> 4.9
+                    </div>
+
+                    {/* Bottom overlay in image */}
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <span className="text-xs font-black uppercase tracking-wider text-primary">
+                        {movie.genre}
                       </span>
                     </div>
                   </div>
-                  <div className="p-4 flex-1 flex flex-col">
-                    <h2 className="text-lg font-bold mb-1 truncate group-hover:text-primary transition-colors">
-                      {movie.title}
-                    </h2>
-                    <div className="flex items-center justify-between mt-auto pt-2">
-                      <p className="text-sm text-gray-400">{movie.genre}</p>
-                      <p className="text-xs font-bold bg-white/10 px-2 py-1 rounded text-gray-300">
-                        {movie.durationMinutes}m
+
+                  {/* Card Content */}
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                    <div>
+                      <h3 className="text-xl font-black text-white group-hover:text-primary transition-colors leading-tight line-clamp-1">
+                        {movie.title}
+                      </h3>
+                      <p className="text-gray-400 text-xs mt-2 line-clamp-2 leading-relaxed">
+                        {movie.description}
                       </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                      <div className="flex items-center gap-3 text-xs text-gray-300 font-semibold">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-gray-500" /> {movie.durationMinutes}m
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5 text-gray-500" /> {new Date(movie.releaseDate).getFullYear()}
+                        </span>
+                      </div>
+
+                      <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-primary to-primary-dark text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(233,69,96,0.3)] group-hover:shadow-[0_0_20px_rgba(233,69,96,0.6)] group-hover:scale-105 transition-all">
+                        <Ticket className="w-3.5 h-3.5" />
+                        <span>Book 3D</span>
+                      </div>
                     </div>
                   </div>
                 </Link>
-              ))}
-        </div>
-        
-        {!loading && movies.length === 0 && (
-          <div className="text-center py-20 bg-surface-light rounded-2xl border border-white/5">
-            <Film className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <p className="text-gray-400 text-lg">No movies found.</p>
+              </Card3DTilt>
+            ))}
           </div>
         )}
       </div>

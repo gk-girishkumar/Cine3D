@@ -46,6 +46,7 @@ export type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "EXPIRED";
 
 export interface Booking {
   id: string;
+  showtimeId?: string;
   totalAmount: number;
   status: BookingStatus;
   createdAt: string;
